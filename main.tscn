@@ -1,0 +1,41 @@
+[gd_scene load_steps=6 format=3 uid="uid://c13evo4r6bbsl"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_gmxuc"]
+[ext_resource type="Texture2D" uid="uid://djcfyboji38g6" path="res://images/background.jpg" id="1_piv0m"]
+[ext_resource type="PackedScene" uid="uid://43tnbps25evr" path="res://obstacle.tscn" id="2_q5lwv"]
+[ext_resource type="PackedScene" uid="uid://c4xgnlo5gb40t" path="res://player.tscn" id="3_05duq"]
+[ext_resource type="PackedScene" uid="uid://blgybuytjpr7b" path="res://display.tscn" id="4_hdfi6"]
+
+[node name="Main" type="Node"]
+script = ExtResource("1_gmxuc")
+obstacle_scene = ExtResource("2_q5lwv")
+
+[node name="ObstacleTimer" type="Timer" parent="."]
+wait_time = 0.5
+
+[node name="ScoreTimer" type="Timer" parent="."]
+
+[node name="StartTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="StartPlayer" type="Marker2D" parent="."]
+position = Vector2(68, 350)
+
+[node name="StartObstacle" type="Marker2D" parent="."]
+position = Vector2(560, 350)
+
+[node name="display" parent="." instance=ExtResource("4_hdfi6")]
+
+[node name="Background" type="Sprite2D" parent="."]
+position = Vector2(300, 225)
+texture = ExtResource("1_piv0m")
+
+[node name="Player" parent="." instance=ExtResource("3_05duq")]
+position = Vector2(65, 347)
+
+[connection signal="timeout" from="ObstacleTimer" to="." method="_on_obstacle_timer_timeout"]
+[connection signal="timeout" from="ScoreTimer" to="." method="_on_score_timer_timeout"]
+[connection signal="timeout" from="StartTimer" to="." method="_on_start_timer_timeout"]
+[connection signal="start_game" from="display" to="." method="new_game"]
+[connection signal="hit" from="Player" to="." method="game_over"]

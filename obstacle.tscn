@@ -1,0 +1,65 @@
+[gd_scene load_steps=8 format=3 uid="uid://43tnbps25evr"]
+
+[ext_resource type="Script" path="res://obstacle.gd" id="1_2iktf"]
+[ext_resource type="Texture2D" uid="uid://uf2oc4nevipv" path="res://images/bigRock_obstacle.png" id="2_7qgbt"]
+[ext_resource type="Texture2D" uid="uid://buvn61488ylkf" path="res://images/flower_obstacle.png" id="3_4bw55"]
+[ext_resource type="Texture2D" uid="uid://dd54tv7jpes5a" path="res://images/plant_obstacle.png" id="4_yy8af"]
+[ext_resource type="Texture2D" uid="uid://dqulrx3tlriw0" path="res://images/smallRock_obstacle.png" id="5_7hax3"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_j1064"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_7qgbt")
+}],
+"loop": true,
+"name": &"bigRock",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_4bw55")
+}],
+"loop": true,
+"name": &"flower",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_yy8af")
+}],
+"loop": true,
+"name": &"plant",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_7hax3")
+}],
+"loop": true,
+"name": &"smallRock",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ee81i"]
+size = Vector2(22, 31)
+
+[node name="obstacle" type="RigidBody2D" groups=["obstacles"]]
+position = Vector2(48, 25)
+collision_mask = 0
+gravity_scale = 0.0
+linear_velocity = Vector2(-100, 0)
+script = ExtResource("1_2iktf")
+metadata/_edit_group_ = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_j1064")
+animation = &"smallRock"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-2, 16.5)
+shape = SubResource("RectangleShape2D_ee81i")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
